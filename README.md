@@ -8,13 +8,11 @@ Key Features:
 Multi-Modal Data Integration:
 ●	Clinical Data: Patient history, menstrual cycle regularity, ovulatory function, age, and BMI.
 ●	Biochemical Data: Hormonal levels (LH, FSH, testosterone, insulin, etc.), glucose tolerance tests.
-●	Imaging Data: Ultrasound images of ovaries and endometrial thickness.
 ●	Machine Learning Techniques:
 
 ●	Logistic Regression and Random Forest: For initial analysis of clinical and biochemical data.
 ●	Support Vector Machine (SVM): For identifying complex relationships between variables.
 ●	Neural Networks (ANN): For handling high-dimensional data and non-linear relationships.
-●	Convolutional Neural Networks (CNN): For analysing ultrasound images.
 ●	Hybrid Model Approach: Combines predictions from Random Forest, SVM, and CNN using ensemble learning techniques.
 
 Improves overall predictive accuracy and robustness by leveraging multiple data sources.
