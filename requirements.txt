@@ -1,5 +1,6 @@
 seaborn
 scikit-learn
-matplotib
+matplotlib
 pandas
 numpy
+ipykernel
