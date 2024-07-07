@@ -1,0 +1,34 @@
+{
+  "build": "h2eaa2aa_4",
+  "build_number": 4,
+  "channel": "https://repo.anaconda.com/pkgs/main/win-64",
+  "constrains": [],
+  "depends": [
+    "vs2015_runtime >=14.29.30133"
+  ],
+  "extracted_package_dir": "C:\\Users\\Abhin\\anaconda3\\pkgs\\vc-14.2-h2eaa2aa_4",
+  "files": [
+    ".nonadmin"
+  ],
+  "fn": "vc-14.2-h2eaa2aa_4.conda",
+  "license": "BSD-3-Clause",
+  "link": {
+    "source": "C:\\Users\\Abhin\\anaconda3\\pkgs\\vc-14.2-h2eaa2aa_4",
+    "type": 1
+  },
+  "md5": "f659a9472066450d95b75a9ae5af1bb2",
+  "name": "vc",
+  "package_tarball_full_path": "C:\\Users\\Abhin\\anaconda3\\pkgs\\vc-14.2-h2eaa2aa_4.conda",
+  "paths_data": {
+    "paths": [],
+    "paths_version": 1
+  },
+  "requested_spec": "None",
+  "sha256": "be359d9bd4822d557c2897365d1e6788716d18761075d069704365f412bf902c",
+  "size": 9939,
+  "subdir": "win-64",
+  "timestamp": 1719597652000,
+  "track_features": "vc14",
+  "url": "https://repo.anaconda.com/pkgs/main/win-64/vc-14.2-h2eaa2aa_4.conda",
+  "version": "14.2"
+}
