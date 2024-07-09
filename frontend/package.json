@@ -15,6 +15,8 @@
     "@mui/icons-material": "^5.15.21",
     "@mui/material": "^5.15.21",
     "@react-oauth/google": "^0.12.1",
+    "axios": "^1.7.2",
+    "dotenv": "^16.4.5",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.24.1"

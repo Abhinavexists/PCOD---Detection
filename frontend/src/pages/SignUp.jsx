@@ -16,23 +16,47 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
+import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 const defaultTheme = createTheme();
 
 const SignUp = () => {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get('email'),
       password: data.get('password'),
     });
+    const userData = {
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      email: data.get('email'),
+      password: data.get('password'),
+    };
+
+    try {
+      const response = await axios.post(`http://localhost:${import.meta.env.VITE_PORT}/auth/signup`, userData);
+      console.log('User registered successfully:', response.data);
+
+      localStorage.setItem('token', response.data.token);
+
+      useHistory().push('/home');
+
+    } catch (error) {
+      console.error('Error registering user:', error);
+    }
   };
 
-  const googleSuccess = (response) => {
+  const googleSuccess = async (response) => {
     console.log(response);
-    // Handle the response after successful Google sign up
-    // You can send this response to your backend to create a new user account
+    try {
+      const res = await axios.post(`http://localhost:${import.meta.env.VITE_PORT}/auth/google-signup`, { token: response.credential });
+      console.log('Google signup successful:', res.data);
+    } catch (error) {
+      console.error('Google signup failed:', error);
+    }
   };
 
   const googleFailure = (error) => {
@@ -47,7 +71,7 @@ const SignUp = () => {
   };
 
   return (
-    <GoogleOAuthProvider clientId="YOUR_GOOGLE_CLIENT_ID">
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
       <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
@@ -145,7 +169,7 @@ const SignUp = () => {
                 <GoogleLogin onSuccess={googleSuccess} onError={googleFailure} text="signup_with" />
                 <Grid container justifyContent="flex-end">
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link href="/login" variant="body2">
                       Already have an account? Sign in
                     </Link>
                   </Grid>

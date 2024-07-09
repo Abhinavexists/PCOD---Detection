@@ -120,13 +120,13 @@ const Login = () => {
                     },
                   }}
                 >
-                  Sign Up
+                  Sign in
                 </Button>
                 <Typography sx={{ textAlign: 'center', mb: 2 }}>Or</Typography>
                 <GoogleLogin onSuccess={googleSuccess} onError={googleFailure} text="signin_with" />
                 <Grid container justifyContent="flex-end">
                   <Grid item>
-                    <Link href="#" variant="body2">
+                    <Link href="/signup" variant="body2">
                       Don't have an account? Sign up
                     </Link>
                   </Grid>
