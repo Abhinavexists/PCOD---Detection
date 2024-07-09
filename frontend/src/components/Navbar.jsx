@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import AppBar from '@mui/material/AppBar';
@@ -16,20 +16,15 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-// Import icons
 import HomeIcon from '@mui/icons-material/Home';
 import DetectionIcon from '@mui/icons-material/LocalHospital';
 import LoginIcon from '@mui/icons-material/Login';
+import { useAuth } from '../context/AuthContext';
 
 const drawerWidth = 240;
-const navItems = [
-  { text: 'Home', path: '/', icon: <HomeIcon /> },
-  { text: 'Detection', path: '/detection', icon: <DetectionIcon /> },
-  { text: 'Sign Up', path: '/signup', icon: <LoginIcon /> },
-  { text: 'Login', path: '/login', icon: <LoginIcon /> }
-];
 
 const Navbar = (props) => {
+  const auth = useAuth();
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
 
@@ -44,14 +39,37 @@ const Navbar = (props) => {
       </Typography>
       <Divider sx={{ bgcolor: 'pink' }} />
       <List>
-        {navItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton sx={{ textAlign: 'center' }} component={Link} to={item.path}>
-              {item.icon}
-              <ListItemText primary={item.text} sx={{ color: 'pink', ml: 1 }} />
-            </ListItemButton>
-          </ListItem>
-        ))}
+        {auth?.isLoggedIn ? (
+          <>
+            <ListItem disablePadding>
+              <ListItemButton sx={{ textAlign: 'center' }} component={Link} to="/">
+                <HomeIcon />
+                <ListItemText primary="Home" sx={{ color: 'pink', ml: 1 }} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton sx={{ textAlign: 'center' }} component={Link} to="/detection">
+                <DetectionIcon />
+                <ListItemText primary="Detection" sx={{ color: 'pink', ml: 1 }} />
+              </ListItemButton>
+            </ListItem>
+          </>
+        ) : (
+          <>
+            <ListItem disablePadding>
+              <ListItemButton sx={{ textAlign: 'center' }} component={Link} to="/signup">
+                <LoginIcon />
+                <ListItemText primary="Sign Up" sx={{ color: 'pink', ml: 1 }} />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton sx={{ textAlign: 'center' }} component={Link} to="/login">
+                <LoginIcon />
+                <ListItemText primary="Login" sx={{ color: 'pink', ml: 1 }} />
+              </ListItemButton>
+            </ListItem>
+          </>
+        )}
       </List>
     </Box>
   );
@@ -80,12 +98,29 @@ const Navbar = (props) => {
             PCOD Detection
           </Typography>
           <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => (
-              <Button key={item.text} sx={{ color: 'pink' }} component={Link} to={item.path}>
-                {item.icon}
-                {item.text}
-              </Button>
-            ))}
+            {auth?.isLoggedIn ? (
+              <>
+                <Button sx={{ color: 'pink' }} component={Link} to="/">
+                  <HomeIcon />
+                  Home
+                </Button>
+                <Button sx={{ color: 'pink' }} component={Link} to="/detection">
+                  <DetectionIcon />
+                  Detection
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button sx={{ color: 'pink' }} component={Link} to="/signup">
+                  <LoginIcon />
+                  Sign Up
+                </Button>
+                <Button sx={{ color: 'pink' }} component={Link} to="/login">
+                  <LoginIcon />
+                  Login
+                </Button>
+              </>
+            )}
           </Box>
         </Toolbar>
       </AppBar>
@@ -114,10 +149,6 @@ const Navbar = (props) => {
 }
 
 Navbar.propTypes = {
-  /**
-   * Injected by the documentation to work in an iframe.
-   * You won't need it on your project.
-   */
   window: PropTypes.func,
 };
 

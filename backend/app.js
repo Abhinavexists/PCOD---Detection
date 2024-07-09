@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 // Define Routes
-app.use('/auth', authRoutes);
+app.use('/api/v1', authRoutes);
 
 // Use the PORT environment variable or default to 3000
 const PORT = process.env.PORT || 3000;

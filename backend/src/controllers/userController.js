@@ -109,101 +109,51 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { getAllUsers, signUp, login };
+const verifyUser = async (req, res) => {
+  try {
+    // User token check
+    const user = await User.findById(res.locals.jwtData.id);
+    if (!user) {
+      return res.status(401).send("User not registered OR Token malfunctioned");
+    }
+    if (user._id.toString() !== res.locals.jwtData.id) {
+      return res.status(401).send("Permissions didn't match");
+    }
+    return res
+      .status(200)
+      .json({ message: "OK", name: user.firstName, email: user.email });
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({ message: "ERROR", cause: error.message });
+  }
+};
 
-// const bcrypt = require('bcryptjs');
-// const jwt = require('jsonwebtoken');
-// const User = require('../models/User');
-// require('dotenv').config();
- 
+const logout = async (req, res) => {
+  try {
+    // User token check
+    const user = await User.findById(res.locals.jwtData.id);
+    if (!user) {
+      return res.status(401).send("User not registered OR Token malfunctioned");
+    }
+    if (user._id.toString() !== res.locals.jwtData.id) {
+      return res.status(401).send("Permissions didn't match");
+    }
 
+    res.clearCookie(process.env.COOKIE_NAME, {
+      httpOnly: true,
+      domain: "localhost",
+      signed: true,
+      path: "/",
+    });
 
-// const registerUser = async (req, res) => {
-//   const { firstName, lastName, email, password } = req.body;
+    return res
+      .status(200)
+      .json({ message: "OK", name: user.firstName, email: user.email });
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({ message: "ERROR", cause: error.message });
+  }
+};
 
-//   try {
-//     let user = await User.findOne({ email });
+module.exports = { getAllUsers, signUp, login, verifyUser, logout };
 
-//     if (user) {
-//       return res.status(400).json({ msg: 'User already exists' });
-//     }
-
-//     user = new User({
-//       firstName,
-//       lastName,
-//       email,
-//       password: await bcrypt.hash(password, 10),
-//     });
-
-//     await user.save();
-
-//     const payload = { user: { id: user.id } };
-
-//     jwt.sign(
-//       payload,
-//       process.env.JWT_SECRET,
-//       { expiresIn: '1h' },
-//       (err, token) => {
-//         if (err) throw err;
-//         res.json({ token });
-//       }
-//     );
-//   } catch (error) {
-//     console.error(error.message);
-//     res.status(500).send('Server error');
-//   }
-// };
-
-// const googleAuth = async (req, res) => {
-//   const { token } = req.body;
-
-//   // Verify Google token and extract user info
-//   // This example uses a mock function verifyGoogleToken to demonstrate
-//   const googleUser = await verifyGoogleToken(token);
-
-//   try {
-//     let user = await User.findOne({ googleId: googleUser.sub });
-
-//     if (!user) {
-//       user = new User({
-//         firstName: googleUser.given_name,
-//         lastName: googleUser.family_name,
-//         email: googleUser.email,
-//         googleId: googleUser.sub,
-//       });
-
-//       await user.save();
-//     }
-
-//     const payload = { user: { id: user.id } };
-
-//     jwt.sign(
-//       payload,
-//       process.env.JWT_SECRET,
-//       { expiresIn: '1h' },
-//       (err, token) => {
-//         if (err) throw err;
-//         res.json({ token });
-//       }
-//     );
-//   } catch (error) {
-//     console.error(error.message);
-//     res.status(500).send('Server error');
-//   }
-// };
-
-// const verifyGoogleToken = async (token) => {
-//   // This function should verify the token using Google's OAuth2 client
-//   // and return the user info. Here we mock it for demonstration.
-//   return {
-//     sub: 'google_user_id',
-//     given_name: 'FirstName',
-//     family_name: 'LastName',
-//     email: 'user@example.com',
-//   };
-// };
-
-// module.exports = {
-//   registerUser,
-//   googleAuth,
-// };
