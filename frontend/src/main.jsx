@@ -7,7 +7,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext.jsx';
 import axios from 'axios';
 
-axios.defaults.baseURL = `http://localhost:${import.meta.env.VITE_PORT}/api/v1`;
+axios.defaults.baseURL = `http://localhost:3000/api/v1`;
 axios.defaults.withCredentials = true;
 
 const themeOptions = {

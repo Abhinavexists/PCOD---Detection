@@ -14,16 +14,36 @@ import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 const Login = () => {
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+  const navigate = useNavigate();
+  const auth = useAuth();
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email");
+    const password = formData.get("password");
+
+    try {
+      toast.loading("Signing In", { id: "login" });
+      await auth?.login(email, password);
+      toast.success("Signed In Successfully", { id: "login" });
+    } catch (error) {
+      console.log(error);
+      toast.error("Signing In Failed", { id: "login" });
+    }
   };
+
+  React.useEffect(() => {
+    if (auth?.user) {
+      navigate("/detection");
+    }
+  }, [auth, navigate]);
 
   const [showPassword, setShowPassword] = React.useState(false);
 
